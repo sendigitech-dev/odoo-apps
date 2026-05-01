@@ -151,7 +151,7 @@ class SenaiConversation(models.Model):
         return '\n'.join(parts)
 
     _MODEL_DOMAINS = {
-        'crm.lead':       lambda uid: [('user_id', '=', uid)],
+        'crm.lead':       lambda uid: [('user_id', '=', uid), ('type', '=', 'opportunity'), ('active', '=', True)],
         'sale.order':     lambda uid: [],
         'account.move':   lambda uid: [],
         'project.task':   lambda uid: [],
@@ -198,8 +198,10 @@ class SenaiConversation(models.Model):
             return None
 
     def _ctx_crm(self, records):
-        lines = []
-        total_rev = sum(r.expected_revenue or 0 for r in records)
+        lines = [f"Nombre d'opportunités : {len(records)}"]
+        # Odoo 19 : expected_revenue = montant saisi, prorated_revenue = pondéré par probabilité
+        rev_field = 'expected_revenue' if 'expected_revenue' in records._fields else 'planned_revenue'
+        total_rev = sum(getattr(r, rev_field) or 0 for r in records)
         lines.append(f"Revenu attendu total : {total_rev:,.0f}")
         by_stage = {}
         for r in records:
