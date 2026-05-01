@@ -137,7 +137,10 @@ class SenaiConversation(models.Model):
             else:
                 parts.append(
                     f"L'utilisateur est dans le module **{context_label}** "
-                    f"mais aucune donnée n'a pu être chargée."
+                    f"mais aucune donnée n'est disponible (module vide ou non installé).\n"
+                    f"Réponds quand même aux questions générales sur ce module Odoo. "
+                    f"Ne demande pas à l'utilisateur de naviguer ou de charger des données — "
+                    f"tu es un assistant textuel, pas une interface graphique."
                 )
         else:
             parts.append(
@@ -161,7 +164,7 @@ class SenaiConversation(models.Model):
         try:
             Model = self.env.get(model_name)
             if not Model:
-                return None
+                return f"Le module Odoo lié ({model_name}) n'est pas installé sur cette instance."
 
             domain_fn = self._MODEL_DOMAINS.get(model_name)
             domain = domain_fn(self.env.user.id) if domain_fn else []
