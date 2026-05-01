@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1f2937; margin: 0; padding: 0; }
+  .hero { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; padding: 48px 40px; text-align: center; }
+  .hero h1 { font-size: 36px; margin: 0 0 12px; font-weight: 800; }
+  .hero p  { font-size: 18px; margin: 0; opacity: .9; }
+  .badges { display: flex; justify-content: center; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+  .badge { background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.4);
+           padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+  .section { padding: 40px; max-width: 900px; margin: 0 auto; }
+  .section h2 { font-size: 24px; color: #4f46e5; margin-bottom: 20px; border-bottom: 2px solid #ede9ff; padding-bottom: 8px; }
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .feature { background: #f5f3ff; border-radius: 12px; padding: 20px; }
+  .feature .icon { font-size: 28px; margin-bottom: 10px; }
+  .feature h3 { font-size: 16px; font-weight: 700; margin: 0 0 8px; color: #3730a3; }
+  .feature p  { font-size: 13px; color: #4b5563; margin: 0; line-height: 1.6; }
+  .providers { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; }
+  .provider { background: #fff; border: 2px solid #ede9ff; border-radius: 10px;
+              padding: 14px 20px; flex: 1; min-width: 180px; }
+  .provider h4 { margin: 0 0 4px; font-size: 15px; color: #1f2937; }
+  .provider p  { margin: 0; font-size: 12px; color: #6b7280; }
+  .provider code { font-size: 11px; background: #f0eeff; color: #5b21b6;
+                   padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px; }
+  .steps { counter-reset: step; display: flex; flex-direction: column; gap: 16px; }
+  .step { display: flex; gap: 16px; align-items: flex-start; }
+  .step-num { background: #4f46e5; color: #fff; width: 32px; height: 32px; border-radius: 50%;
+              display: flex; align-items: center; justify-content: center; font-weight: 700;
+              font-size: 14px; flex-shrink: 0; }
+  .step-body h4 { margin: 4px 0; font-size: 15px; }
+  .step-body p  { margin: 0; font-size: 13px; color: #6b7280; }
+  .screenshot { width: 100%; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,.12);
+                margin: 12px 0; border: 1px solid #e5e7eb; }
+  .screenshot-caption { text-align: center; font-size: 12px; color: #9ca3af; margin-bottom: 24px; }
+  .mixin-block { background: #1e1e2e; color: #cdd6f4; padding: 20px 24px;
+                 border-radius: 10px; font-family: monospace; font-size: 13px; line-height: 1.8; }
+  .kw { color: #cba6f7; } .cls { color: #89dceb; } .str { color: #a6e3a1; }
+  .cm { color: #6c7086; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { background: #f5f3ff; color: #3730a3; padding: 10px 14px; text-align: left; }
+  td { padding: 10px 14px; border-bottom: 1px solid #f3f4f6; }
+  tr:last-child td { border-bottom: none; }
+  .check { color: #22c55e; font-weight: 700; }
+  .faq { display: flex; flex-direction: column; gap: 14px; }
+  .faq-item { background: #f9fafb; border-radius: 10px; padding: 16px 20px; }
+  .faq-item h4 { margin: 0 0 6px; font-size: 14px; color: #1f2937; }
+  .faq-item p  { margin: 0; font-size: 13px; color: #4b5563; }
+  footer { background: #f5f3ff; padding: 24px 40px; text-align: center; font-size: 13px; color: #6b7280; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>✦ AI Chat Assistant</h1>
+  <p>Google Gemini · OpenAI (ChatGPT) · Anthropic (Claude) — directly in Odoo 19</p>
+  <div class="badges">
+    <span class="badge">Odoo 19</span>
+    <span class="badge">Community &amp; Enterprise</span>
+    <span class="badge">No external dependencies</span>
+    <span class="badge">OPL-1</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="section">
+  <h2>Key Features</h2>
+  <div class="features">
+    <div class="feature">
+      <div class="icon">💬</div>
+      <h3>Persistent Floating Chat</h3>
+      <p>A fixed tab on the right edge of every Odoo page. Click to open a sleek panel — no page change required.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🧠</div>
+      <h3>Automatic Odoo Context</h3>
+      <p>The assistant detects your current module (CRM, Sales, Accounting…) and automatically injects live data into every conversation.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">📂</div>
+      <h3>Personal Conversation History</h3>
+      <p>Each user has their own private conversation history, persisted in the database and resumable at any time.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🔌</div>
+      <h3>Multi-LLM Support</h3>
+      <p>Choose your AI provider — Google Gemini, OpenAI or Anthropic Claude. Switch anytime from the configuration.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🔒</div>
+      <h3>Odoo-Native Security</h3>
+      <p>Built-in User and Admin groups. Record rules enforce personal data isolation at the ORM level.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🛠️</div>
+      <h3>Developer Mixin</h3>
+      <p>Inherit <code>senai.mixin</code> in any custom module to add AI capabilities in just 3 lines of code.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SCREENSHOTS -->
+<div class="section">
+  <h2>Screenshots</h2>
+  <img src="screen_widget.png" class="screenshot" alt="Floating chat widget"/>
+  <p class="screenshot-caption">The floating tab is always visible — click to open the chat panel</p>
+  <img src="screen_chat.png" class="screenshot" alt="Chat conversation with context"/>
+  <p class="screenshot-caption">Contextual conversation — the assistant reads your CRM/Sales/Accounting data in real time</p>
+  <img src="screen_config.png" class="screenshot" alt="Configuration page with provider selector"/>
+  <p class="screenshot-caption">Choose your AI provider and paste your API key — done in 30 seconds</p>
+  <img src="screen_history.png" class="screenshot" alt="Conversation history list"/>
+  <p class="screenshot-caption">Personal conversation history — resume any past conversation</p>
+</div>
+
+<!-- PROVIDERS -->
+<div class="section">
+  <h2>Supported AI Providers</h2>
+  <div class="providers">
+    <div class="provider">
+      <h4>🔵 Google Gemini</h4>
+      <p>Free tier available<br/>API key from <strong>aistudio.google.com</strong></p>
+      <code>gemini-2.5-flash</code>
+      <code>gemini-2.0-flash</code>
+    </div>
+    <div class="provider">
+      <h4>🟢 OpenAI</h4>
+      <p>ChatGPT models<br/>API key from <strong>platform.openai.com</strong></p>
+      <code>gpt-4o</code>
+      <code>gpt-4o-mini</code>
+    </div>
+    <div class="provider">
+      <h4>🟠 Anthropic</h4>
+      <p>Claude models<br/>API key from <strong>console.anthropic.com</strong></p>
+      <code>claude-opus-4-7</code>
+      <code>claude-sonnet-4-6</code>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div class="section">
+  <h2>Getting Started in 3 Steps</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Install the module</h4>
+        <p>Upload the ZIP in Odoo Apps (Settings → Activate developer mode → Apps → Upload). The module installs with zero additional dependencies.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Enter your API key</h4>
+        <p>Go to <strong>SenAI → Configuration</strong>, select your AI provider, paste your API key and save.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Assign access to users</h4>
+        <p>In the same configuration, add users to <em>SenAI Users</em>. The floating chat immediately appears for them on every Odoo page.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MIXIN -->
+<div class="section">
+  <h2>Developer Mixin</h2>
+  <p style="color:#4b5563;margin-bottom:16px;">Add AI to any custom model in 3 lines — the mixin handles authentication, fallback models and error handling automatically.</p>
+  <div class="mixin-block">
+<span class="kw">class</span> <span class="cls">MyModel</span>(models.Model):<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;_name = <span class="str">'my.model'</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;_inherit = [<span class="str">'my.model'</span>, <span class="str">'senai.mixin'</span>]<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">def</span> <span class="cls">action_summarize</span>(self):<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.ensure_one()<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># Works with Gemini, OpenAI or Claude — whichever is configured</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;summary = self.action_ask_senai(<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">f"Summarize this record: </span>{self.description}<span class="str">"</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.ai_summary = summary
+  </div>
+</div>
+
+<!-- CONTEXT MODULES -->
+<div class="section">
+  <h2>Automatic Context — Supported Modules</h2>
+  <table>
+    <tr><th>Odoo Module</th><th>Data injected into AI context</th></tr>
+    <tr><td>CRM</td><td>Leads by stage, expected revenue, responsible user</td></tr>
+    <tr><td>Sales</td><td>Orders by status, total amounts</td></tr>
+    <tr><td>Accounting</td><td>Customer invoices, supplier bills, payment states, totals</td></tr>
+    <tr><td>Inventory</td><td>Transfers by status</td></tr>
+    <tr><td>Purchase</td><td>Purchase orders, total amounts</td></tr>
+    <tr><td>Project</td><td>Tasks by stage</td></tr>
+    <tr><td>HR / Employees</td><td>Employees by department</td></tr>
+  </table>
+</div>
+
+<!-- FAQ -->
+<div class="section">
+  <h2>FAQ</h2>
+  <div class="faq">
+    <div class="faq-item">
+      <h4>Does this module send my Odoo data to third-party servers?</h4>
+      <p>Only the data from your current Odoo module (e.g. CRM leads count, invoice totals) is sent to the AI provider you configured. No full database export, no sensitive personal data beyond what you explicitly ask about.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Which Odoo editions are supported?</h4>
+      <p>Both Community and Enterprise. The module only depends on <code>base</code> and <code>web</code> — no Enterprise-specific modules required.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Do I need to install any Python packages?</h4>
+      <p>No. All API calls use Python's built-in <code>urllib</code> library. Nothing to pip-install on your server.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Can multiple users share the same API key?</h4>
+      <p>Yes. The admin configures one API key for the whole company. All authorized users share it transparently.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Is conversation data private between users?</h4>
+      <p>Yes. Record-level security rules (ORM-level) ensure each user can only read, write and delete their own conversations. Admins can view all conversations via the back-office menu.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Developed by <strong>SenDigiTech</strong> · Support: contact@sendigitech.com · License: OPL-1
+</footer>
+
+</body>
+</html>

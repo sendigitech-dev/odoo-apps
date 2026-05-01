@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+<t t-name="senai_connector.SenaiChatWidget">
+<div class="senai-widget">
+
+    <!-- ─── Panneau ─── -->
+    <div class="senai-panel" t-att-class="{ 'senai-panel--open': state.isOpen }">
+
+        <!-- Vue : liste des conversations -->
+        <t t-if="state.view === 'list'">
+            <div class="senai-panel__header">
+                <div class="senai-panel__header-title">
+                    <span class="senai-logo">✦</span> SenAI
+                </div>
+                <button class="senai-btn-icon" t-on-click="togglePanel" title="Fermer">✕</button>
+            </div>
+
+            <div class="senai-list__toolbar">
+                <button class="senai-btn-new" t-on-click="newConversation">
+                    + Nouvelle conversation
+                </button>
+                <t t-if="state.context">
+                    <span class="senai-context-badge">
+                        📊 <t t-esc="state.context.label"/>
+                    </span>
+                </t>
+            </div>
+
+            <div class="senai-list__body">
+                <t t-if="state.loadingConvs">
+                    <div class="senai-list__empty">Chargement…</div>
+                </t>
+                <t t-elif="state.conversations.length === 0">
+                    <div class="senai-list__empty">
+                        <p>Aucune conversation pour l'instant.</p>
+                        <p>Cliquez sur <strong>+ Nouvelle conversation</strong> pour commencer.</p>
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="state.conversations" t-as="conv" t-key="conv.id">
+                        <div class="senai-list__item" t-on-click="() => openConversation(conv)">
+                            <div class="senai-list__item-main">
+                                <span class="senai-list__item-name" t-esc="conv.name"/>
+                                <t t-if="conv.context_label">
+                                    <span class="senai-list__item-tag" t-esc="conv.context_label"/>
+                                </t>
+                            </div>
+                            <div class="senai-list__item-meta">
+                                <span t-esc="conv.date"/>
+                                <button
+                                    class="senai-btn-del"
+                                    t-on-click="(ev) => deleteConversation(ev, conv.id)"
+                                    title="Supprimer">🗑</button>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </t>
+
+        <!-- Vue : conversation active -->
+        <t t-if="state.view === 'chat'">
+            <div class="senai-panel__header">
+                <button class="senai-btn-icon" t-on-click="backToList" title="Retour">←</button>
+                <div class="senai-panel__header-title senai-panel__header-title--chat">
+                    <t t-esc="state.activeConvName"/>
+                </div>
+                <button class="senai-btn-icon" t-on-click="togglePanel" title="Fermer">✕</button>
+            </div>
+
+            <t t-if="state.context">
+                <div class="senai-context-bar">
+                    📊 Contexte : <strong t-esc="state.context.label"/>
+                    — les données de votre module sont transmises à SenAI
+                </div>
+            </t>
+
+            <div class="senai-panel__messages" t-ref="messages">
+                <t t-if="state.messages.length === 0">
+                    <div class="senai-panel__empty">
+                        <p>👋 Bonjour <strong><t t-esc="env.user?.name or 'vous'"/></strong> !</p>
+                        <p>Posez votre question à SenAI.<br/>
+                        <t t-if="state.context">
+                            Je vois que vous êtes dans <strong t-esc="state.context.label"/> —
+                            je peux analyser vos données.
+                        </t>
+                        </p>
+                    </div>
+                </t>
+                <t t-foreach="state.messages" t-as="msg" t-key="msg_index">
+                    <div t-attf-class="senai-bubble senai-bubble--{{ msg.role }}">
+                        <t t-if="msg.role === 'assistant'" t-out="renderContent(msg.content)"/>
+                        <t t-else="" t-esc="msg.content"/>
+                    </div>
+                </t>
+                <t t-if="state.isLoading">
+                    <div class="senai-bubble senai-bubble--assistant senai-bubble--loading">
+                        <span/><span/><span/>
+                    </div>
+                </t>
+            </div>
+
+            <div class="senai-panel__input-area">
+                <textarea
+                    class="senai-panel__textarea"
+                    placeholder="Posez votre question… (Entrée pour envoyer)"
+                    t-model="state.input"
+                    t-on-keydown="onKeydown"
+                    t-att-disabled="state.isLoading"
+                />
+                <button
+                    class="senai-panel__send"
+                    t-on-click="sendMessage"
+                    t-att-disabled="state.isLoading or !state.input.trim()">➤</button>
+            </div>
+        </t>
+
+    </div>
+
+    <!-- ─── Onglet latéral ─── -->
+    <button class="senai-tab" t-on-click="togglePanel">
+        <span class="senai-tab__label">SenAI</span>
+    </button>
+
+</div>
+</t>
+</templates>

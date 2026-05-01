@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_senai_config_form" model="ir.ui.view">
+        <field name="name">senai.config.form</field>
+        <field name="model">senai.config</field>
+        <field name="arch" type="xml">
+            <form string="Configuration SenAI">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Nom de la configuration"/></h1>
+                    </div>
+
+                    <group>
+                        <group string="Fournisseur IA">
+                            <field name="provider" widget="radio"/>
+                            <field name="model_id"
+                                   placeholder="ex : gemini-2.5-flash / gpt-4o / claude-opus-4-7"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Clé API">
+                            <field name="api_key" widget="password" nolabel="1"
+                                   placeholder="Collez votre clé API ici…"/>
+                        </group>
+                    </group>
+
+                    <!-- Aide contextuelle selon le provider -->
+                    <div class="alert alert-info" role="alert"
+                         invisible="provider != 'gemini'">
+                        <strong>Google Gemini</strong> — Obtenez votre clé API gratuitement sur
+                        <strong>aistudio.google.com</strong> → Get API key.
+                        Modèles recommandés : <code>gemini-2.5-flash</code>, <code>gemini-2.0-flash</code>.
+                    </div>
+                    <div class="alert alert-info" role="alert"
+                         invisible="provider != 'openai'">
+                        <strong>OpenAI (ChatGPT)</strong> — Obtenez votre clé API sur
+                        <strong>platform.openai.com</strong> → API Keys.
+                        Modèles recommandés : <code>gpt-4o</code>, <code>gpt-4o-mini</code>.
+                    </div>
+                    <div class="alert alert-info" role="alert"
+                         invisible="provider != 'anthropic'">
+                        <strong>Anthropic (Claude)</strong> — Obtenez votre clé API sur
+                        <strong>console.anthropic.com</strong> → API Keys.
+                        Modèles recommandés : <code>claude-opus-4-7</code>, <code>claude-sonnet-4-6</code>.
+                    </div>
+
+                    <group string="Utilisateurs SenAI"
+                           help="Ces utilisateurs ont accès au chat SenAI.">
+                        <field name="senai_user_ids"
+                               widget="many2many_tags"
+                               nolabel="1"
+                               options="{'no_create': True}"
+                               placeholder="Ajouter des utilisateurs…"/>
+                    </group>
+
+                    <group string="Administrateurs SenAI"
+                           help="Ces utilisateurs peuvent configurer SenAI et gérer les accès.">
+                        <field name="senai_admin_ids"
+                               widget="many2many_tags"
+                               nolabel="1"
+                               options="{'no_create': True}"
+                               placeholder="Ajouter des administrateurs…"/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_senai_config_list" model="ir.ui.view">
+        <field name="name">senai.config.list</field>
+        <field name="model">senai.config</field>
+        <field name="arch" type="xml">
+            <list string="Configurations SenAI">
+                <field name="name"/>
+                <field name="provider" string="Fournisseur"/>
+                <field name="model_id" string="Modèle"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_senai_config" model="ir.actions.act_window">
+        <field name="name">Configuration SenAI</field>
+        <field name="res_model">senai.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu racine -->
+    <menuitem
+        id="menu_senai_root"
+        name="SenAI"
+        sequence="90"
+    />
+
+    <menuitem
+        id="menu_senai_config"
+        name="Configuration"
+        parent="menu_senai_root"
+        action="action_senai_config"
+        sequence="20"
+        groups="senai_connector.group_senai_admin"
+    />
+
+</odoo>

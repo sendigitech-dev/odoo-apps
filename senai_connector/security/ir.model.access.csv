@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_senai_config_admin,senai.config (admin),model_senai_config,senai_connector.group_senai_admin,1,1,1,1
+access_senai_conversation_user,senai.conversation (user),model_senai_conversation,senai_connector.group_senai_user,1,1,1,1
+access_senai_message_user,senai.message (user),model_senai_message,senai_connector.group_senai_user,1,1,1,1

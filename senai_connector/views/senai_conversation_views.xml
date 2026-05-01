@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_senai_conversation_list" model="ir.ui.view">
+        <field name="name">senai.conversation.list</field>
+        <field name="model">senai.conversation</field>
+        <field name="arch" type="xml">
+            <list string="Conversations SenAI" default_order="write_date desc">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="context_label" string="Module"/>
+                <field name="message_count" string="Messages"/>
+                <field name="write_date" string="Dernière activité"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_senai_conversation_form" model="ir.ui.view">
+        <field name="name">senai.conversation.form</field>
+        <field name="model">senai.conversation</field>
+        <field name="arch" type="xml">
+            <form string="Conversation SenAI">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <field name="user_id"/>
+                        <field name="context_label" string="Module"/>
+                        <field name="write_date" string="Dernière activité"/>
+                    </group>
+                    <field name="message_ids" nolabel="1">
+                        <list editable="bottom">
+                            <field name="role"/>
+                            <field name="content"/>
+                            <field name="create_date" string="Date"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_senai_conversation" model="ir.actions.act_window">
+        <field name="name">Conversations SenAI</field>
+        <field name="res_model">senai.conversation</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('user_id', '=', uid)]</field>
+    </record>
+
+    <record id="action_senai_conversation_all" model="ir.actions.act_window">
+        <field name="name">Toutes les conversations</field>
+        <field name="res_model">senai.conversation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_senai_chat"
+        name="Mes conversations"
+        parent="menu_senai_root"
+        action="action_senai_conversation"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_senai_all_conversations"
+        name="Toutes les conversations"
+        parent="menu_senai_root"
+        action="action_senai_conversation_all"
+        sequence="15"
+        groups="base.group_system"
+    />
+
+</odoo>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Catégorie de module -->
+    <record id="module_category_senai" model="ir.module.category">
+        <field name="name">SenAI</field>
+        <field name="description">Assistant IA SenDigiTech pour Odoo</field>
+        <field name="sequence">100</field>
+    </record>
+
+    <!-- Privilege : regroupe les niveaux d'accès SenAI (affiché dans la fiche utilisateur) -->
+    <record id="res_groups_privilege_senai" model="res.groups.privilege">
+        <field name="name">SenAI</field>
+        <field name="category_id" ref="module_category_senai"/>
+        <field name="placeholder">Aucun accès</field>
+    </record>
+
+    <!-- Groupe Utilisateur -->
+    <record id="group_senai_user" model="res.groups">
+        <field name="name">Utilisateur</field>
+        <field name="privilege_id" ref="res_groups_privilege_senai"/>
+        <field name="implied_ids" eval="[Command.link(ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Groupe Administrateur (implique Utilisateur) -->
+    <record id="group_senai_admin" model="res.groups">
+        <field name="name">Administrateur</field>
+        <field name="privilege_id" ref="res_groups_privilege_senai"/>
+        <field name="implied_ids" eval="[Command.link(ref('group_senai_user'))]"/>
+        <!-- L'admin Odoo est automatiquement administrateur SenAI -->
+        <field name="user_ids" eval="[Command.link(ref('base.user_admin'))]"/>
+    </record>
+
+    <!-- Règle : un utilisateur ne voit que ses propres conversations -->
+    <record id="rule_senai_conversation_own" model="ir.rule">
+        <field name="name">SenAI : conversations personnelles</field>
+        <field name="model_id" ref="model_senai_conversation"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="groups" eval="[Command.link(ref('group_senai_user'))]"/>
+        <field name="perm_read"  eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- Règle : un utilisateur ne voit que ses propres messages -->
+    <record id="rule_senai_message_own" model="ir.rule">
+        <field name="name">SenAI : messages personnels</field>
+        <field name="model_id" ref="model_senai_message"/>
+        <field name="domain_force">[('conversation_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[Command.link(ref('group_senai_user'))]"/>
+        <field name="perm_read"  eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+</odoo>
