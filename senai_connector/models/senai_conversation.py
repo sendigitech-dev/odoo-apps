@@ -162,9 +162,9 @@ class SenaiConversation(models.Model):
 
     def _fetch_context_data(self, model_name):
         try:
-            Model = self.env.get(model_name)
-            if not Model:
-                return f"Le module Odoo lié ({model_name}) n'est pas installé sur cette instance."
+            if model_name not in self.env.registry:
+                return None
+            Model = self.env[model_name]
 
             domain_fn = self._MODEL_DOMAINS.get(model_name)
             domain = domain_fn(self.env.user.id) if domain_fn else []
